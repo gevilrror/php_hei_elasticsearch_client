@@ -1,4 +1,10 @@
 <?php
+/**
+ * Gevilrror php_elasticsearch
+ *
+ * @author Gevilrror <Gevilrror@qq.com>
+ * @version 0.0.2 20150417
+ */
 
 /**
  * php_elasticsearch
@@ -6,6 +12,7 @@
 class php_elasticsearch
 {
     var $hosts = array();
+    var $debug = false;
 
     /**
      * __construct
@@ -32,6 +39,10 @@ class php_elasticsearch
                         $this->hosts[] = rtrim($scheme.$userinfo.$host.$port.$path, '/').'/';
                     }
                 }
+            }
+
+            if (isset($config['debug'])) {
+                $this->debug = !!$config['debug'];
             }
         }
 
@@ -126,23 +137,25 @@ class php_elasticsearch
 
         if (!empty($query)) {
 
-            $arrstr = array();
-            foreach ($query as $query_key => $query_value) {
-                if (is_string($query_value)) {
-                    $qs = $query_key;
-                    if (!empty($query_value)) {
-                        $qs .= '='.urlencode($query_value);
-                    }
-                    $arrstr[] = $qs;
-                    unset($query[$query_key]);
-                }
-            }
+            $url .= '?'.http_build_query($query);
 
-            $url .= '?'.implode('&', $arrstr);
+            // $arrstr = array();
+            // foreach ($query as $query_key => $query_value) {
+            //     if (is_string($query_value)) {
+            //         $qs = $query_key;
+            //         if (!empty($query_value)) {
+            //             $qs .= '='.urlencode($query_value);
+            //         }
+            //         $arrstr[] = $qs;
+            //         unset($query[$query_key]);
+            //     }
+            // }
 
-            if (!empty($query)) {
-                $url .= '&'.http_build_query($query);
-            }
+            // $url .= '?'.implode('&', $arrstr);
+
+            // if (!empty($query)) {
+            //     $url .= '&'.http_build_query($query);
+            // }
         }
 
         $result = RESTful_curl::exec($method, $url, $data, $opt);
@@ -150,17 +163,28 @@ class php_elasticsearch
         if (stripos(trim($result['content_type']), 'application/json;') === 0) {
             if ($res = json_decode($result['content'], true)) {
                 unset($result['content']);
-                $res['_httpinfo'] = $result;
+
+                if ($this->debug) {
+                    $res['_httpinfo'] = $result;
+                }
+
                 return $res;
             }
         } else if ($method == 'HEAD') {
-            return array(
+            $res = array(
                 'exists' => $result['http_code'] == 200?true:false,
-                '_httpinfo' => $result,
             );
+
+            if ($this->debug) {
+                $res['_httpinfo'] = $result;
+            }
+
+            return $res;
         }
 
-        return $result;
+
+
+        return $this->debug?$result:false;
     }
 }
 
