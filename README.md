@@ -1,4 +1,4 @@
-# hei_phpelasticsearch
+# hei_php_elasticsearch
 
         
         require_once dirname(__FILE__).'/php_elasticsearch.php';
