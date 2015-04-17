@@ -1,4 +1,4 @@
-# php_elasticsearch
+# hei_phpelasticsearch
 
         
         require_once dirname(__FILE__).'/php_elasticsearch.php';
@@ -82,4 +82,50 @@
         	'method' => 'put',
         );
         $ret = $client->exec($indexParams);
+        var_dump($ret);
+
+
+
+        $params = array(
+            'body'  => array(
+                '{ "index":  { "_index": "website", "_type": "blog", "_id": "1234" }}',
+                '{ "title":    "But we can update it" }',
+                '{ "index":  { "_index": "website", "_type": "blog", "_id": "12434" }}',
+                '{ "title":    "But we can update it" }',
+            ),
+            'action' => '_bulk',
+        );
+        $ret = $client->exec($params);
+        
+        var_dump($ret);
+        
+        
+        
+        $params = array(
+            'body'  => array(
+                array(
+                    'index' => array(
+                        '_index' => 'website',
+                        '_type' => 'blog',
+                        '_id' => '123',
+                    ),
+                ),
+                array(
+                    'title' => 'But we can update it',
+                ),
+                array(
+                    'index' => array(
+                        '_index' => 'website',
+                        '_type' => 'blog',
+                        '_id' => '12345',
+                    ),
+                ),
+                array(
+                    'title' => 'But we can update it',
+                ),
+            ),
+            'action' => '_bulk',
+        );
+        $ret = $client->exec($params);
+        
         var_dump($ret);
