@@ -108,6 +108,14 @@ class php_elasticsearch
 
         if (isset($params['action'])) {
             $url .= $params['action'];
+
+            if (strtolower(trim($params['action'])) == '_bulk' && isset($params['body']) && is_array($params['body'])) {
+                foreach ($params['body'] as $key => $request) {
+                    $params['body'][$key] = is_string($request)?$request:json_encode($this->jsonFormat($request));
+                }
+                $params['body'] = implode("\n", $params['body'])."\n";
+            }
+
             unset($params['action']);
         }
 
@@ -166,6 +174,7 @@ class php_elasticsearch
 
                 if ($this->debug) {
                     $res['_httpinfo'] = $result;
+                    $res['_data'] = $data;
                 }
 
                 return $res;
@@ -177,14 +186,20 @@ class php_elasticsearch
 
             if ($this->debug) {
                 $res['_httpinfo'] = $result;
+                $res['_data'] = $data;
             }
 
             return $res;
         }
 
-
-
-        return $this->debug?$result:false;
+        if ($this->debug) {
+            $res = array();
+            $res['_httpinfo'] = $result;
+            $res['_data'] = $data;
+            return $res;
+        }else{
+            return false;
+        }
     }
 }
 
