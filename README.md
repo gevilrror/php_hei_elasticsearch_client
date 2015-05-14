@@ -28,6 +28,20 @@
         var_dump($ret);
         
         
+        $updateParams = array(
+            'index' => 'my_index',
+            'type'  => 'my_type',
+            'id'    => 'my_id',
+            'action' => '_update',
+            'body'  => array(
+                'doc' => array(
+                    'uptestField' => 'upabc',
+                ),
+            ),
+        );
+        $ret = $client->exec($updateParams);
+        var_dump($ret);
+        
         
         $params = array(
             'action' => '_count',
