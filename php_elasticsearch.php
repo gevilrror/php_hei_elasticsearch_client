@@ -90,6 +90,7 @@ class php_elasticsearch
         $data = null;
         $method = 'GET';
         $opt = array(
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_HTTPHEADER => array(
                 'Connection: Keep-Alive',
             ),
