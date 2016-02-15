@@ -89,7 +89,11 @@ class php_elasticsearch
         $query = array();
         $data = null;
         $method = 'GET';
-        $opt = null;
+        $opt = array(
+            CURLOPT_HTTPHEADER => array(
+                'Connection: Keep-Alive',
+            ),
+        );
 
         if (isset($params['index'])) {
             $url .= $params['index'].'/';
@@ -130,7 +134,7 @@ class php_elasticsearch
         }
 
         if (isset($params['opt'])) {
-            $opt = $params['opt'];
+            $opt += $params['opt'];
             unset($params['opt']);
         }
 
