@@ -1,15 +1,15 @@
 <?php
 /**
- * Gevilrror php_elasticsearch
+ * Gevilrror hei_elasticsearch_client
  *
  * @author Gevilrror <Gevilrror@qq.com>
  * @version 0.0.2 20150417
  */
 
 /**
- * php_elasticsearch
+ * hei_elasticsearch_client
  */
-class php_elasticsearch
+class hei_elasticsearch_client
 {
     var $hosts = array();
     var $debug = false;
