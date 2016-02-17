@@ -1,12 +1,12 @@
-# hei_php_elasticsearch
+# php_hei_elasticsearch_client
 
         
-        require_once dirname(__FILE__).'/php_elasticsearch.php';
+        require_once dirname(__FILE__).'/hei_elasticsearch_client.php';
         
         $params = array(
         	'hosts' => array('localhost:9200'),
         );
-        $client = new php_elasticsearch($params);
+        $client = new hei_elasticsearch_client($params);
         
         $params = array(
         	'body'  => array('testField' => 'abc'),
