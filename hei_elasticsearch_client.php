@@ -1,9 +1,7 @@
 <?php
 /**
- * Gevilrror hei_elasticsearch_client
- *
+ * hei_elasticsearch_client
  * @author Gevilrror <Gevilrror@qq.com>
- * @version 0.0.2 20150417
  */
 
 /**
